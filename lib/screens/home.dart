@@ -26,7 +26,7 @@ class _Home extends State<Home> {
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 0,
-        backgroundColor: Color(0xFFf4f7f4),
+        backgroundColor: const Color(0xFFf4f7f4),
         elevation: 0,
       ),
       backgroundColor: Color(0xFFf4f7f4),
