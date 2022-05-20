@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:x_bill/screens/home.dart';
+import 'package:x_bill/screens/tabs_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: Home(),
+      home: TabsPage(),
     );
   }
 }
