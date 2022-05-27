@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:x_bill/constants.dart';
 import 'package:x_bill/screens/home.dart';
+import 'package:x_bill/screens/my/my.dart';
+import 'package:x_bill/screens/personal/personal.dart';
 import 'package:x_bill/util.dart';
 
 class TabsPage extends StatefulWidget {
@@ -11,23 +13,30 @@ class TabsPage extends StatefulWidget {
   }
 }
 
-class _TabsPage extends State<TabsPage> {
+class _TabsPage extends State<TabsPage> with AutomaticKeepAliveClientMixin {
   int currentTab = 0;
 
   List<Widget> tabPages = [
-    Home(),
+    const Home(),
     Container(),
-    Container(),
-    Container(),
+    const Persoanl(),
+    My(),
   ];
 
   @override
+  bool get wantKeepAlive => true;
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
     Util.setStatusBarTextColor(SystemUiOverlayStyle.light);
 
     return Scaffold(
       backgroundColor: Color(0xFFF5F6F7),
-      body: tabPages[currentTab],
+      body: IndexedStack(
+        index: currentTab,
+        children: tabPages,
+      ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         selectedFontSize: 12,
