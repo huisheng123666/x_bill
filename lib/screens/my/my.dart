@@ -5,6 +5,7 @@ import 'package:x_bill/constants.dart';
 import 'package:x_bill/screens/my/my_loan.dart';
 import 'package:x_bill/screens/my/my_open.dart';
 import 'package:x_bill/screens/my/safety.dart';
+import 'package:x_bill/screens/my/verify.dart';
 import 'package:x_bill/util.dart';
 
 class My extends StatefulWidget {
@@ -82,32 +83,40 @@ class _My extends State<My> {
                             ),
                           ),
                         ),
-                        Container(
-                          margin: EdgeInsets.only(left: Util.calc(8, context)),
-                          height: Util.calc(24, context),
-                          padding: EdgeInsets.symmetric(
-                              horizontal: Util.calc(13, context)),
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius:
-                                BorderRadius.circular(Util.calc(12, context)),
-                          ),
-                          child: Row(
-                            children: [
-                              Text(
-                                '未认证',
-                                style: TextStyle(
-                                  color: Color(0xffFF8C19),
-                                  fontSize: Util.calc(12, context),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(CupertinoPageRoute(
+                              builder: (context) => Verify(),
+                            ));
+                          },
+                          child: Container(
+                            margin:
+                                EdgeInsets.only(left: Util.calc(8, context)),
+                            height: Util.calc(24, context),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: Util.calc(13, context)),
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius:
+                                  BorderRadius.circular(Util.calc(12, context)),
+                            ),
+                            child: Row(
+                              children: [
+                                Text(
+                                  '已认证',
+                                  style: TextStyle(
+                                    color: Color(0xffFF8C19),
+                                    fontSize: Util.calc(12, context),
+                                  ),
                                 ),
-                              ),
-                              Icon(
-                                Icons.keyboard_arrow_right,
-                                size: Util.calc(16, context),
-                                color: Color(0xffB6BBBF),
-                              )
-                            ],
+                                Icon(
+                                  Icons.keyboard_arrow_right,
+                                  size: Util.calc(16, context),
+                                  color: Color(0xffB6BBBF),
+                                )
+                              ],
+                            ),
                           ),
                         )
                       ],
