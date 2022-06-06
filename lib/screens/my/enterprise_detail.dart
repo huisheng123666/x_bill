@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:x_bill/components/common_nav.dart';
 import 'package:x_bill/constants.dart';
 import 'package:x_bill/util.dart';
 
@@ -9,28 +10,7 @@ class EnterpriseDetail extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0.2,
-        title: Text(
-          '企业详情',
-          style: TextStyle(
-            color: kContentColorDarkTheme,
-            fontSize: Util.calc(16, context),
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-        leading: GestureDetector(
-          onTap: () {
-            Navigator.of(context).pop();
-          },
-          child: Icon(
-            Icons.keyboard_arrow_left,
-            size: Util.calc(24, context),
-            color: kContentColorDarkTheme,
-          ),
-        ),
-      ),
+      appBar: CommonNav.generator(context, '企业详情'),
       body: Container(
         width: Util.screenWidth(context),
         padding: EdgeInsets.symmetric(horizontal: Util.calc(16, context)),

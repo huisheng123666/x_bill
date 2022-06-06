@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:x_bill/components/common_nav.dart';
 import 'package:x_bill/constants.dart';
 import 'package:x_bill/screens/my/loan_detail.dart';
 import 'package:x_bill/util.dart';
@@ -18,28 +19,7 @@ class _MyLoan extends State<MyLoan> with AutomaticKeepAliveClientMixin {
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          '我的贷款',
-          style: TextStyle(
-            color: kContentColorDarkTheme,
-            fontSize: Util.calc(16, context),
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-        backgroundColor: Colors.white,
-        elevation: 0.3,
-        leading: GestureDetector(
-          onTap: () {
-            Navigator.of(context).pop();
-          },
-          child: Icon(
-            Icons.keyboard_arrow_left,
-            size: Util.calc(24, context),
-            color: kContentColorDarkTheme,
-          ),
-        ),
-      ),
+      appBar: CommonNav.generator(context, '我的贷款'),
       body: ListView.builder(
         itemCount: 10,
         itemBuilder: (context, index) => LoanItem(

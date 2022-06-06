@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:x_bill/components/nav_bar.dart';
@@ -5,8 +8,19 @@ import 'package:x_bill/constants.dart';
 import 'package:x_bill/screens/personal/personal.dart';
 import 'package:x_bill/util.dart';
 
-class GoodsDetail extends StatelessWidget {
-  const GoodsDetail({super.key});
+class GoodsDetail extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return _GoodsDetail();
+  }
+}
+
+class _GoodsDetail extends State<GoodsDetail> {
+  bool showLayer = false;
+
+  int totalSeconds = 10;
+
+  late Timer timer;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +41,7 @@ class GoodsDetail extends StatelessWidget {
     );
 
     return Scaffold(
-      backgroundColor: Color(0xffF5F6F7),
+      backgroundColor: const Color(0xffF5F6F7),
       body: Container(
         width: Util.screenWidth(context),
         height: double.infinity,
@@ -137,22 +151,145 @@ class GoodsDetail extends StatelessWidget {
                   bottom: Util.bottomSafeHeight(context),
                 ),
                 color: Colors.white,
-                child: Container(
-                  height: Util.calc(44, context),
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    color: kPrimaryColor,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Text(
-                    '立即申请',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: Util.calc(14, context),
-                      fontWeight: FontWeight.w500,
+                child: GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      showLayer = true;
+                      totalSeconds = 10;
+                      _countDown();
+                    });
+                  },
+                  child: Container(
+                    height: Util.calc(44, context),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: kPrimaryColor,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Text(
+                      '立即申请',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: Util.calc(14, context),
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ),
                 ),
+              ),
+            ),
+            showLayer ? _buildAuthPop() : const SizedBox(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  _countDown() {
+    if (totalSeconds != 0) {
+      timer = Timer(Duration(seconds: 1), () {
+        setState(() {
+          totalSeconds--;
+          _countDown();
+        });
+      });
+    }
+  }
+
+  _buildAuthPop() {
+    return Positioned(
+      left: 0,
+      top: 0,
+      bottom: 0,
+      child: Container(
+        width: Util.screenWidth(context),
+        color: Color.fromRGBO(0, 0, 0, 0.4),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              width: Util.calc(279, context),
+              padding: EdgeInsets.all(Util.calc(24, context)),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(
+                  Util.calc(8, context),
+                ),
+              ),
+              child: Column(
+                children: [
+                  Text(
+                    '用户授权',
+                    style: TextStyle(
+                      height: 1,
+                      color: kContentColorDarkTheme,
+                      fontSize: Util.calc(16, context),
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  SizedBox(height: Util.calc(24, context)),
+                  RichText(
+                    text: TextSpan(
+                      text: '本系统为金融机构提供线上贷款服务，需要您阅读并同意',
+                      style: TextStyle(
+                        height: 1.5,
+                        color: kContentColorDarkTheme,
+                        fontSize: Util.calc(12, context),
+                      ),
+                      children: [
+                        TextSpan(
+                          text: '《个人信息查询授权书》',
+                          style: const TextStyle(
+                            color: Color(0xff0073E6),
+                          ),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = (() {
+                              timer.cancel();
+                              setState(() {
+                                totalSeconds = 0;
+                              });
+                            }),
+                        ),
+                        const TextSpan(
+                          text:
+                              '并签约后，金融机构才能对您的个人信息进行收集使用。如不同意，金融机构将无法为您提供线上贷款服务。',
+                        )
+                      ],
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: Util.calc(32, context)),
+                    alignment: Alignment.center,
+                    height: Util.calc(40, context),
+                    decoration: BoxDecoration(
+                      color: Color.fromRGBO(
+                          230, 23, 39, totalSeconds == 0 ? 1 : 0.5),
+                      borderRadius: BorderRadius.circular(
+                        Util.calc(4, context),
+                      ),
+                    ),
+                    child: Text(
+                      '（$totalSeconds）同意授权',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: Util.calc(14, context)),
+                    ),
+                  )
+                ],
+              ),
+            ),
+            SizedBox(height: Util.calc(24, context)),
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  showLayer = false;
+                  timer.cancel();
+                });
+              },
+              child: const Icon(
+                Icons.close,
+                color: Colors.white,
+                size: 30,
               ),
             )
           ],

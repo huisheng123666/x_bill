@@ -71,7 +71,7 @@ class _Personal extends State<Persoanl> {
           goods: goodes[index],
           onTab: () {
             Navigator.of(context).push(CupertinoPageRoute(
-              builder: (context) => const GoodsDetail(),
+              builder: (context) => GoodsDetail(),
             ));
           },
         ),

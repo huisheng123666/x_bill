@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:x_bill/components/common_nav.dart';
 import 'package:x_bill/constants.dart';
 import 'package:x_bill/util.dart';
 
@@ -21,28 +22,7 @@ class _MyOpen extends State<MyOpen> {
 
     return Scaffold(
       backgroundColor: Color(0xffF5F6F7),
-      appBar: AppBar(
-        title: Text(
-          '我的开户',
-          style: TextStyle(
-            color: kContentColorDarkTheme,
-            fontSize: Util.calc(16, context),
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-        backgroundColor: Colors.white,
-        elevation: 0.3,
-        leading: GestureDetector(
-          onTap: () {
-            Navigator.of(context).pop();
-          },
-          child: Icon(
-            Icons.keyboard_arrow_left,
-            size: Util.calc(24, context),
-            color: kContentColorDarkTheme,
-          ),
-        ),
-      ),
+      appBar: CommonNav.generator(context, '我的开户'),
       body: ListView.builder(
         itemBuilder: (context, index) => Container(
           margin: EdgeInsets.only(bottom: Util.calc(16, context)),
