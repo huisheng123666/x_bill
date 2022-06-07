@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
 import 'package:x_bill/components/common_nav.dart';
 import 'package:x_bill/constants.dart';
+import 'package:x_bill/screens/my/bind_phone.dart';
 import 'package:x_bill/screens/my/enterprise_bind.dart';
 import 'package:x_bill/screens/my/verify.dart';
 import 'package:x_bill/util.dart';
@@ -26,7 +27,11 @@ class Safety extends StatelessWidget {
               label: '手机号',
               value: '13488886699',
               statusText: '去修改',
-              onTap: () {},
+              onTap: () {
+                Navigator.of(context).push(CupertinoPageRoute(
+                  builder: (context) => BindPhone(),
+                ));
+              },
             ),
             SfaetyItem(
               label: '微信号',

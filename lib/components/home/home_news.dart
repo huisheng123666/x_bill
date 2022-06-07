@@ -1,5 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:x_bill/components/new_item.dart';
 import 'package:x_bill/constants.dart';
+import 'package:x_bill/screens/news.dart';
+import 'package:x_bill/screens/webview.dart';
 import 'package:x_bill/util.dart';
 
 const List<String> tabs = ['政策资讯', '金融资讯', '平台资讯'];
@@ -42,7 +46,11 @@ class _HomeNews extends State<HomeNews> {
                 ),
               ),
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context).push(CupertinoPageRoute(
+                    builder: (context) => News(),
+                  ));
+                },
                 child: Container(
                   width: Util.calc(40, context),
                   height: Util.calc(20, context),
@@ -67,27 +75,60 @@ class _HomeNews extends State<HomeNews> {
           ),
           SizedBox(height: Util.calc(14, context)),
           Row(children: _genNewsTabs()),
-          const NewsItem(
+          NewsItem(
             title: '从十九届五中全会公报看十四五期间五大产业政策主线从十九届五中全会公报看十四五期间五大产业政策主线',
             tag: '华尔街见闻',
             date: '2021-08-12',
             cover:
                 'https://img2.baidu.com/it/u=2864883089,1070642727&fm=253&fmt=auto&app=138&f=JPEG?w=889&h=500',
+            onTap: () {
+              Navigator.of(context).push(
+                CupertinoPageRoute(
+                  builder: (context) => const HybridPage(
+                    title: '新闻详情',
+                    url:
+                        'https://3g.163.com/dy/article/H98UCSHI051283GO.html?spss=adap_pc',
+                  ),
+                ),
+              );
+            },
           ),
-          const NewsItem(
+          NewsItem(
             title: '从十九届五中全会公报看十四五期间五大产业政策主线从十九届五中全会公报看十四五期间五大产业政策主线',
             tag: '华尔街见闻',
             date: '2021-08-12',
             cover:
                 'https://img2.baidu.com/it/u=2864883089,1070642727&fm=253&fmt=auto&app=138&f=JPEG?w=889&h=500',
+            onTap: () {
+              Navigator.of(context).push(
+                CupertinoPageRoute(
+                  builder: (context) => const HybridPage(
+                    title: '新闻详情',
+                    url:
+                        'https://3g.163.com/dy/article/H98UCSHI051283GO.html?spss=adap_pc',
+                  ),
+                ),
+              );
+            },
           ),
-          const NewsItem(
+          NewsItem(
             title: '从十九届五中全会公报看十四五期间五大产业政策主线从十九届五中全会公报看十四五期间五大产业政策主线',
             tag: '华尔街见闻',
             date: '2021-08-12',
             cover:
                 'https://img2.baidu.com/it/u=2864883089,1070642727&fm=253&fmt=auto&app=138&f=JPEG?w=889&h=500',
-          )
+            onTap: () {
+              Navigator.of(context).push(
+                CupertinoPageRoute(
+                  builder: (context) => const HybridPage(
+                    title: '新闻详情',
+                    url:
+                        'https://3g.163.com/dy/article/H98UCSHI051283GO.html?spss=adap_pc',
+                  ),
+                ),
+              );
+            },
+          ),
         ],
       ),
     );
@@ -109,76 +150,6 @@ class _HomeNews extends State<HomeNews> {
     }
 
     return newsTabs;
-  }
-}
-
-class NewsItem extends StatelessWidget {
-  final String title;
-  final String tag;
-  final String date;
-  final String cover;
-
-  const NewsItem({
-    Key? key,
-    required this.title,
-    required this.tag,
-    required this.date,
-    required this.cover,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: Util.calc(72, context),
-      margin: EdgeInsets.only(top: Util.calc(24, context)),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                width: Util.calc(192, context),
-                child: Text(
-                  title,
-                  softWrap: true,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    color: kContentColorDarkTheme,
-                    fontSize: Util.calc(14, context),
-                  ),
-                ),
-              ),
-              SizedBox(height: Util.calc(16, context)),
-              RichText(
-                text: TextSpan(
-                    text: tag,
-                    style: TextStyle(
-                      color: Color(0xff5588A3),
-                      fontSize: Util.calc(12, context),
-                    ),
-                    children: [
-                      TextSpan(
-                        text: '      $date',
-                        style: TextStyle(color: Color(0xffB6BBBF)),
-                      )
-                    ]),
-              )
-            ],
-          ),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(8),
-            child: Image.network(
-              cover,
-              width: Util.calc(95, context),
-              height: Util.calc(72, context),
-              fit: BoxFit.cover,
-            ),
-          )
-        ],
-      ),
-    );
   }
 }
 

@@ -1,14 +1,19 @@
 import 'dart:async';
-
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:x_bill/components/common_nav.dart';
 import 'package:x_bill/components/nav_bar.dart';
 import 'package:x_bill/constants.dart';
+import 'package:x_bill/screens/my/loan_detail.dart';
 import 'package:x_bill/screens/personal/personal.dart';
+import 'package:x_bill/screens/webview.dart';
 import 'package:x_bill/util.dart';
 
 class GoodsDetail extends StatefulWidget {
+  const GoodsDetail({super.key});
+
   @override
   State<StatefulWidget> createState() {
     return _GoodsDetail();
@@ -23,9 +28,13 @@ class _GoodsDetail extends State<GoodsDetail> {
   late Timer timer;
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    super.initState();
     Util.setStatusBarTextColor(SystemUiOverlayStyle.light);
+  }
 
+  @override
+  Widget build(BuildContext context) {
     var subTitleStyle = TextStyle(
       height: 1,
       fontSize: Util.calc(14, context),
@@ -40,28 +49,30 @@ class _GoodsDetail extends State<GoodsDetail> {
       fontWeight: FontWeight.w500,
     );
 
-    return Scaffold(
-      backgroundColor: const Color(0xffF5F6F7),
-      body: Container(
-        width: Util.screenWidth(context),
-        height: double.infinity,
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Color(0xffE61727),
-              Color(0xffFF9966),
-              Colors.transparent,
-              Colors.transparent,
-              Colors.transparent,
-            ],
-            stops: [0, .29, .2901, .6, 1],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-        ),
-        child: Stack(
-          children: [
-            SafeArea(
+    return Stack(
+      children: [
+        Scaffold(
+          backgroundColor: const Color(0xffF5F6F7),
+          appBar: CommonNav.generator(
+              context, '快e贷', Colors.white, Color(0xffE61727), 0),
+          body: Container(
+            width: Util.screenWidth(context),
+            height: double.infinity,
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Color(0xffE61727),
+                  Color(0xffFF9966),
+                  Colors.transparent,
+                  Colors.transparent,
+                  Colors.transparent,
+                ],
+                stops: [0, .29, .2901, .6, 1],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ),
+            ),
+            child: SafeArea(
               child: Padding(
                 padding: EdgeInsets.only(
                   left: Util.calc(16, context),
@@ -71,12 +82,6 @@ class _GoodsDetail extends State<GoodsDetail> {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      NavBar(
-                        title: '快e贷',
-                        onBack: () {
-                          Navigator.of(context).pop();
-                        },
-                      ),
                       SizedBox(height: Util.calc(8, context)),
                       GoodsItem(
                         goods: Goods(
@@ -87,7 +92,7 @@ class _GoodsDetail extends State<GoodsDetail> {
                           deadline: '12个月',
                           tag: '质押担保',
                         ),
-                        onTab: () {},
+                        onTab: _openLayer,
                       ),
                       Container(
                         width: double.infinity,
@@ -139,55 +144,57 @@ class _GoodsDetail extends State<GoodsDetail> {
                 ),
               ),
             ),
-            Positioned(
-              bottom: 0,
-              right: 0,
+          ),
+        ),
+        Positioned(
+          bottom: 0,
+          right: 0,
+          child: Container(
+            width: Util.screenWidth(context),
+            padding: EdgeInsets.only(
+              left: Util.calc(16, context),
+              right: Util.calc(16, context),
+              top: Util.calc(10, context),
+              bottom: Util.bottomSafeHeight(context),
+            ),
+            color: Colors.white,
+            child: GestureDetector(
+              onTap: _openLayer,
               child: Container(
-                width: Util.screenWidth(context),
-                padding: EdgeInsets.only(
-                  left: Util.calc(16, context),
-                  right: Util.calc(16, context),
-                  top: Util.calc(10, context),
-                  bottom: Util.bottomSafeHeight(context),
+                height: Util.calc(44, context),
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: kPrimaryColor,
+                  borderRadius: BorderRadius.circular(8),
                 ),
-                color: Colors.white,
-                child: GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      showLayer = true;
-                      totalSeconds = 10;
-                      _countDown();
-                    });
-                  },
-                  child: Container(
-                    height: Util.calc(44, context),
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      color: kPrimaryColor,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Text(
-                      '立即申请',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: Util.calc(14, context),
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
+                child: Text(
+                  '立即申请',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: Util.calc(14, context),
+                      fontWeight: FontWeight.w500,
+                      decoration: TextDecoration.none),
                 ),
               ),
             ),
-            showLayer ? _buildAuthPop() : const SizedBox(),
-          ],
+          ),
         ),
-      ),
+        showLayer ? _buildAuthPop() : const SizedBox(),
+      ],
     );
+  }
+
+  _openLayer() {
+    setState(() {
+      showLayer = true;
+      totalSeconds = 10;
+      _countDown();
+    });
   }
 
   _countDown() {
     if (totalSeconds != 0) {
-      timer = Timer(Duration(seconds: 1), () {
+      timer = Timer(const Duration(seconds: 1), () {
         setState(() {
           totalSeconds--;
           _countDown();
@@ -203,7 +210,7 @@ class _GoodsDetail extends State<GoodsDetail> {
       bottom: 0,
       child: Container(
         width: Util.screenWidth(context),
-        color: Color.fromRGBO(0, 0, 0, 0.4),
+        color: const Color.fromRGBO(0, 0, 0, 0.4),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -225,6 +232,7 @@ class _GoodsDetail extends State<GoodsDetail> {
                       color: kContentColorDarkTheme,
                       fontSize: Util.calc(16, context),
                       fontWeight: FontWeight.w500,
+                      decoration: TextDecoration.none,
                     ),
                   ),
                   SizedBox(height: Util.calc(24, context)),
@@ -235,6 +243,7 @@ class _GoodsDetail extends State<GoodsDetail> {
                         height: 1.5,
                         color: kContentColorDarkTheme,
                         fontSize: Util.calc(12, context),
+                        decoration: TextDecoration.none,
                       ),
                       children: [
                         TextSpan(
@@ -248,6 +257,12 @@ class _GoodsDetail extends State<GoodsDetail> {
                               setState(() {
                                 totalSeconds = 0;
                               });
+                              Navigator.of(context).push(CupertinoPageRoute(
+                                builder: (context) => const HybridPage(
+                                  title: '个人信息查询授权书',
+                                  url: 'https://flutter.cn',
+                                ),
+                              ));
                             }),
                         ),
                         const TextSpan(
@@ -257,22 +272,36 @@ class _GoodsDetail extends State<GoodsDetail> {
                       ],
                     ),
                   ),
-                  Container(
-                    margin: EdgeInsets.only(top: Util.calc(32, context)),
-                    alignment: Alignment.center,
-                    height: Util.calc(40, context),
-                    decoration: BoxDecoration(
-                      color: Color.fromRGBO(
-                          230, 23, 39, totalSeconds == 0 ? 1 : 0.5),
-                      borderRadius: BorderRadius.circular(
-                        Util.calc(4, context),
+                  GestureDetector(
+                    onTap: () {
+                      if (totalSeconds != 0) return;
+                      timer.cancel();
+                      Navigator.of(context).push(
+                        CupertinoPageRoute(builder: (context) => LoanDetail()),
+                      );
+                      setState(() {
+                        showLayer = false;
+                      });
+                    },
+                    child: Container(
+                      margin: EdgeInsets.only(top: Util.calc(32, context)),
+                      alignment: Alignment.center,
+                      height: Util.calc(40, context),
+                      decoration: BoxDecoration(
+                        color: Color.fromRGBO(
+                            230, 23, 39, totalSeconds == 0 ? 1 : 0.5),
+                        borderRadius: BorderRadius.circular(
+                          Util.calc(4, context),
+                        ),
                       ),
-                    ),
-                    child: Text(
-                      '（$totalSeconds）同意授权',
-                      style: TextStyle(
+                      child: Text(
+                        '${totalSeconds != 0 ? '(${totalSeconds}s)' : ''}同意授权',
+                        style: TextStyle(
                           color: Colors.white,
-                          fontSize: Util.calc(14, context)),
+                          fontSize: Util.calc(14, context),
+                          decoration: TextDecoration.none,
+                        ),
+                      ),
                     ),
                   )
                 ],

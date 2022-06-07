@@ -2,7 +2,7 @@ import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:x_bill/components/home/block_item.dart';
 import 'package:x_bill/components/home/home_data.dart';
-import 'package:x_bill/components/home/news.dart';
+import 'package:x_bill/components/home/home_news.dart';
 import 'package:x_bill/components/home/product_item.dart';
 import 'package:x_bill/screens/personal/goods_detail.dart';
 import 'package:x_bill/util.dart';

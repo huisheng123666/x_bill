@@ -18,7 +18,7 @@ class _TabsPage extends State<TabsPage> with AutomaticKeepAliveClientMixin {
 
   List<Widget> tabPages = [
     const Home(),
-    Container(),
+    const Persoanl(),
     const Persoanl(),
     My(),
   ];
