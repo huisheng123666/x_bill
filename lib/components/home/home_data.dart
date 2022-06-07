@@ -9,7 +9,6 @@ class HomeData extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: Util.calc(111, context),
       width: Util.calc(343, context),
       decoration: const BoxDecoration(
         color: Colors.white,
